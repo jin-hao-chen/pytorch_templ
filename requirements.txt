@@ -1,0 +1,9 @@
+numpy
+pandas
+matplotlib
+torch
+torchnet
+torchvision
+visdom
+pillow
+opencv-python
