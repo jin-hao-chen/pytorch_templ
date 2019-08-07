@@ -11,10 +11,12 @@ class Config(object):
     model = None
     model_path = None
     print_seq = 10
-    learning_rate = 0.01
+    lr = 0.01
+    lr_decay = 0.95
     batch_size = 1
     epochs = 100
     env = 'main'
+    use_gpu = False
     
 
     def parse_args(self, **kwargs):

@@ -8,6 +8,8 @@ PROJ_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, PROJ_DIR)
 import fire
 import torch as t
+import torch.nn as nn
+import torch.optim as optim
 
 from src.config import Config
 from src import utils
@@ -41,3 +43,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

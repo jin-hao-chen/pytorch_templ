@@ -7,6 +7,15 @@ import warnings
 import numpy as np
 import torch as t
 import visdom
+import scipy
+import scipy.io as io
+import cv2
+from PIL import Image
+import matplotlib.pyplot as plt
+from matplotlib import cm as CM
+from scipy.ndimage.filters import gaussian_filter
+import scipy.spatial
+
 
 from src.config import Config
 from src import models
@@ -78,4 +87,49 @@ def load_model(name):
     return model
 
 
+def adjust_lr(optimizer, epoch, lr_decay, initial_lr):
+    lr = initial_lr / (1.0 + epoch * lr_decay)
+    for param_group in optimizer.param_groups:
+        param_group['lr'] = lr
+    retur lr
+
+
+def pil2cv(image):
+    """Convert pillow image to cv image
+    """
+    return cv2.cvtColor(np.asarray(image), cv2.COLOR_RGB2BGR)
+
+def cv2pil(image):
+    """Convert cv image to pillow image
+    """
+    return Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+
+def cv2array(image):
+    """Convert ndarray type image format from BGR to RGB
+    """
+    return cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+def pil2array(image):
+    """Convert pillow image to ndarray
+    """
+    return np.array(image)
+
+def tensor2numpy(tensor):
+    """Convert tensor to ndarray
+    """
+    return tensor.cpu().detach().numpy()
+
+def array2tensor(array, device='auto'):
+    """Convert ndarray to tensor on ['cpu', 'gpu', 'auto']
+    """
+    assert device in ['cpu', 'gpu', 'auto'], "Invalid device"
+    if device != 'auto':
+        return t.tensor(array).float().to(t.device(device))
+    if device == 'auto':
+        return t.tensor(array).float().to(t.device('cuda' if t.cuda.is_available() else 'cpu'))
+
+def load_mat(path):
+    return io.loadmat(path)
+
 logger = Logger(Config.log_dir)
+

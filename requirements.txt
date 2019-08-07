@@ -7,3 +7,4 @@ torchvision
 visdom
 pillow
 opencv-python
+fire
