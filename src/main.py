@@ -16,7 +16,8 @@ from src import utils
 
 
 opts = Config()
-model = utils.load_model('model')
+device = t.device('cuda' if t.cuda.is_available() else 'cpu')
+model = utils.load_model('model').to(device)
 
 
 def parse_args(func):
